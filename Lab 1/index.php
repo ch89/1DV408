@@ -29,19 +29,25 @@ if(isset($_SESSION["username"])) {
 	echo "<a href='?logout'>Logga ut</a>";
 }
 else if(isset($_POST["submit"])) {
-	if(!empty($_POST["username"]) && !empty($_POST["password"])) {
-		if($_POST["username"] == $username && $_POST["password"] == $password) {
-			$_SESSION["username"] = $_POST["username"];
-			$_SESSION["first"] = "first";
-			header("Location: index.php");
+	if(!empty($_POST["username"])) {
+		if(!empty($_POST["password"])) {
+			if($_POST["username"] == $username && $_POST["password"] == $password) {
+				$_SESSION["username"] = $_POST["username"];
+				$_SESSION["first"] = "first";
+				header("Location: index.php");
+			}
+			else {
+				echo "<p>Ogiltigt användarnamn och/eller lösenord.</p>";
+				displayForm();
+			}
 		}
 		else {
-			echo "<p>Ogiltigt användarnamn och/eller lösenord.</p>";
+			echo "<p>Lösenord saknas</p>";
 			displayForm();
 		}
 	}
 	else {
-		echo "<p>Användarnamn och/eller lösenord saknas</p>";
+		echo "<p>Användarnamn saknas</p>";
 		displayForm();
 	}
 }
