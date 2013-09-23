@@ -2,12 +2,12 @@
 	import flash.display.*;
 	import flash.events.*;
 	
-	public class Main extends Sprite {
+	public class Easing extends Sprite {
 		public var ball:Ball;
 		public var easing:Number = .2;
 		public var balls:Array;
 		
-		public function Main() {
+		public function Easing() {
 			balls = new Array();
 			
 			for(var i:int = 0; i < 10; i++) {
