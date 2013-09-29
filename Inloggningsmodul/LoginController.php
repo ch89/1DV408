@@ -16,7 +16,7 @@ class LoginController {
 		}
 		
 		if(isset($_SESSION[self::$userLocation])) {
-			return $this->loginView->getLoginHTML($_SESSION[self::$userLocation]);
+			return $this->loginView->getLoggedinHTML($_SESSION[self::$userLocation]);
 		}
 		else if($this->loginView->userTriesToLogin()) {
 			try {
