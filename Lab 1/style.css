@@ -1,0 +1,15 @@
+.post {
+	border: 2px solid black;
+	width: 500px;
+	margin-top: 15px;
+}
+
+p {
+	margin: 0;
+	padding: 5px;
+}
+
+.des {
+	text-align: center;
+	border-top: 1px solid black;
+}
