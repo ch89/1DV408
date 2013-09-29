@@ -1,5 +1,5 @@
 <?php
-
+//Before code review
 session_start();
 
 ?>
