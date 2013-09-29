@@ -19,11 +19,11 @@ class LoginView {
 		return new User($_POST["username"], $_POST["password"]);
 	}
 
-	public function getLoginHTML($user) {
+	public function getLoggedinHTML($user) {
 		$username = $user->getUsername();
 		$html = "<h2>Inloggad som $username</h2>";
 		$html .= $this->getLogoutButton();
-	 	echo $html;
+	 	return $html;
 	}
 
 	public function getLogoutButton() {
@@ -43,6 +43,6 @@ class LoginView {
 			$form .= "<p>$this->message</p>";
 		}
 
-		echo $form;
+		return $form;
 	}
 }
