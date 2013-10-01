@@ -16,13 +16,17 @@ class LoginController {
 			unset($_SESSION[self::$userLocation]);
 			setcookie(self::$userLocation, "", time() - 7200);
 		}
-		if(isset($_COOKIE[self::$userLocation])) {
-			$_SESSION[self::$userLocation] = $_COOKIE[self::$userLocation];
-		}
-		
+
 		if(isset($_SESSION[self::$userLocation])) {
 			return $this->loginView->getLoggedinHTML($_SESSION[self::$userLocation]);
 		}
+		else if(isset($_COOKIE[self::$userLocation])) {
+			return $this->loginView->getLoggedinHTML($_SESSION[self::$userLocation]);
+
+			//$_SESSION[self::$userLocation] = $_COOKIE[self::$userLocation];
+			//header("Location: index.php");
+		}
+		
 		else if($this->loginView->userTriesToLogin()) {
 			try {
 				$user = $this->loginView->getUser();
@@ -32,7 +36,7 @@ class LoginController {
 					setcookie(self::$userLocation, $user, time() + 7200);
 				}
 
-				//$_SESSION[self::$userLocation] = $user;
+				$_SESSION[self::$userLocation] = $user;
 				header("Location: index.php");
 			}
 			catch(Exception $e) {
