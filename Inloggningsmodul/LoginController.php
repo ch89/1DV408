@@ -21,7 +21,7 @@ class LoginController {
 			return $this->loginView->getLoggedinHTML($_SESSION[self::$userLocation]);
 		}
 		else if(isset($_COOKIE[self::$userLocation])) {
-			return $this->loginView->getLoggedinHTML($_SESSION[self::$userLocation]);
+			return $this->loginView->getLoggedinHTML($_COOKIE[self::$userLocation]);
 
 			//$_SESSION[self::$userLocation] = $_COOKIE[self::$userLocation];
 			//header("Location: index.php");
