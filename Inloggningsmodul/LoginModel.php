@@ -6,7 +6,10 @@ class LoginModel {
 	private static $password = "pass";
 
 	public function validUser(User $user) {
-		if($user->getUsername() != self::$username || $user->getPassword() != self::$password) {
+		$un = $user->getUsername();
+		$pw = $user->getPassword();
+		
+		if($un != self::$username || $pw != self::$password) {
 			throw new Exception("Ogiltigt användarnamn och/eller lösenord.");
 		}
 	}
