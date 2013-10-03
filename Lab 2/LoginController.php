@@ -68,7 +68,7 @@ class LoginController {
 		if($this->loginView->userLogsout()) {
 			setcookie(self::$username, "", time() - 7200);
 			setcookie(self::$password, "", time() - 7200);
-			$this->loginModel->removeCookieData($_SESSION[self::$username]);
+			$this->loginModel->removeCookieData();
 			unset($_SESSION[self::$username]);
 			header("Location: index.php");
 		}
