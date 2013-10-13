@@ -6,9 +6,10 @@ require_once("LoginController.php");
 require_once("User.php");
 require_once("Navigator.php");
 require_once("MasterController.php");
+require_once("Security.php");
 
 session_start();
-
+Security::runSecurityTest();
 ?>
 
 <!DOCTYPE html>
