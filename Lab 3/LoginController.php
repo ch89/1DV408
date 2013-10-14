@@ -1,16 +1,32 @@
 <?php
 
 class LoginController {
+	// @var LoginView $loginView
 	private $loginView;
+
+	// @var LoginModel $loginModel
 	private $loginModel;
+
+	// @var Navigator $navigator
 	private $navigator;
 
-	public function LoginController(LoginView $loginView, LoginModel $loginModel, Navigator $navigator) {
+	// @param LoginView $loginView
+	// @param LoginModel $loginModel
+	// @param Navigator $navigator
+	public function LoginController(LoginView $loginView, 
+									LoginModel $loginModel,
+									Navigator $navigator) {
+		
+		assert($loginView instanceof LoginView);
+		assert($loginModel instanceof LoginModel);
+		assert($navigator instanceof Navigator);
+
 		$this->loginView = $loginView;
 		$this->loginModel = $loginModel;
 		$this->navigator = $navigator;
 	}
 
+	// @return string
 	public function login() {
 		if($this->loginView->isRemembered()) {
 			$this->loginWithCookies();
@@ -21,6 +37,7 @@ class LoginController {
 		return $this->loginView->getForm();
 	}
 
+	// @throws Exception If the cookies have been manipulated
 	private function loginWithCookies() {
 		try {
 			$user = $this->loginView->getRememberedUser();
@@ -40,6 +57,7 @@ class LoginController {
 		}
 	}
 
+	// @throws Exception If the username and/or password are incorrect
 	private function loginWithoutCookies() {
 		try {
 			$user = $this->loginView->getUser();
@@ -48,7 +66,7 @@ class LoginController {
 
 				if($this->loginView->rememberMe()) {
 					$this->loginView->setCookies($user);
-					$this->loginView->setSuccessMessage("Inloggningen lyckades och vi kommer ihåg dig nästa gång.");
+					$this->loginView->setSuccessMessage("Vi kommer ihåg dig nästa gång.");
 				}
 				else {
 					$this->loginView->setSuccessMessage("Inloggningen lyckades.");

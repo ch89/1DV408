@@ -1,7 +1,11 @@
 <?php
 
 class Security {
+
+	// @var string $IPAddress
 	private static $IPAddress = "model::Security::IPAddress";
+
+	// @var string $remoteAddr
 	private static $remoteAddr = "model::Security::remoteAddr";
 
 	public static function runSecurityTest() {

@@ -1,18 +1,28 @@
 <?php
 
 class MasterController {
+	// @var LoginController $loginController
 	private $loginController;
+
+	// @var LoginView $loginView
 	private $loginView;
+
+	// @var LoginModel $loginModel
 	private $loginModel;
+
+	// @var Navigator $navigator
 	private $navigator;
 
 	public function MasterController() {
 		$this->loginView = new loginView();
 		$this->loginModel = new loginModel();
 		$this->navigator = new Navigator();
-		$this->loginController = new loginController($this->loginView, $this->loginModel, $this->navigator);
+		$this->loginController = new loginController($this->loginView,
+													 $this->loginModel, 
+													 $this->navigator);
 	}
 
+	// @return string
 	public function run() {
 		if($this->loginModel->isLoggedin()) {
 			if($this->loginView->userWantsToLogout()) {

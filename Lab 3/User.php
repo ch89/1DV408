@@ -12,12 +12,17 @@ class User {
 	// @param string $password
 
 	public function User($username, $password) {
+		assert(is_string($username));
+		assert(is_string($password));
+
 		$this->setUsername($username);
 		$this->setPassword($password);
 	}
 
 	// @param string $username
 	public function setUsername($username) {
+		assert(is_string($username));
+
 		if(empty($username)) {
 			throw new Exception("Du måste ange ett användarnamn.");
 		}
@@ -26,6 +31,8 @@ class User {
 
 	// @param string $password
 	public function setPassword($password) {
+		assert(is_string($password));
+		
 		if(empty($password)) {
 			throw new Exception("Du måste ange ett lösenord.");
 		}
