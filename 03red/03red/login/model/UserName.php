@@ -7,9 +7,8 @@ class UserName {
 	const MAXIMUM_USERNAME_LENGTH = 9; 
 
 	public function __construct($userName) {
-		if ($this->isOkUserName($userName) == false) {
-			throw new \Exception("UserName::__construct : Tried to create user with faulty username");
-		}
+		$this->isOkUserName($userName);
+
 		$this->userName = $userName;
 	}
 
@@ -19,13 +18,9 @@ class UserName {
 
 	private function isOkUserName($string) {
 		if (\Common\Filter::hasTags($string) == true) {
-			return false;
-		} else if (strlen($string) < self::MINIMUM_USERNAME_LENGTH) {
-			return false;
-		} else if (strlen($string) > self::MAXIMUM_USERNAME_LENGTH) {
-			return false;
+			throw new \Exception("Användarnamnet innehåller ogiltiga tecken.");
+		} else if (strlen($string) < self::MINIMUM_USERNAME_LENGTH || strlen($string) > self::MAXIMUM_USERNAME_LENGTH) {
+			throw new \Exception("Användarnamnet måste bestå av mellan 3 och 9 tecken.");
 		}
-		
-		return true;
 	}
 }

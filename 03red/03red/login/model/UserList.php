@@ -31,7 +31,7 @@ class UserList {
 	public function usernameIsTaken($fromClient) {
 		foreach($this->users as $user) {
 			if ($user->usernameExists($fromClient) ) {
-				throw new \Exception("The username is already taken.");
+				throw new \Exception("Användarnamnet är upptaget.");
 			}
 		}
 	}

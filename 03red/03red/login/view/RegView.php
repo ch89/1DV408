@@ -41,7 +41,11 @@ class RegView {
 		return \login\model\UserCredentials::create($username, $password);
 	}
 
-	public function setMessage($message) {
+	public function setSuccessMessage() {
+		$this->message = "Registrering av ny användare lyckades.";
+	}
+
+	public function setFailMessage($message) {
 		$this->message = $message;
 	}
 }

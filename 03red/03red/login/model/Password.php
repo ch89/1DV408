@@ -20,12 +20,10 @@ class Password {
 	}
 
 	public static function fromCleartext($cleartext) {
-		if (self::isOkPassword($cleartext) == true ) {
-			$ret = new Password();
-			$ret->encryptedPassword = $ret->encryptPassword($cleartext, "salty salt");
-			return $ret;
-		} 
-		throw new \Exception("Tried to create user with faulty password");
+		self::isOkPassword($cleartext);
+		$ret = new Password();
+		$ret->encryptedPassword = $ret->encryptPassword($cleartext, "salty salt");
+		return $ret;
 	}
 
 	public static function emptyPassword() {
@@ -37,13 +35,9 @@ class Password {
 	}
 
 	private static function isOkPassword($string) {
-		
-		if (strlen($string) < self::MINIMUM_PASSWORD_CHARACTERS) {
-			return false;
-		} else if (strlen($string) > self::MAXIMUM_PASSWORD_CHARACTERS) {
-			return false;
+		if (strlen($string) < self::MINIMUM_PASSWORD_CHARACTERS || strlen($string) > self::MAXIMUM_PASSWORD_CHARACTERS) {
+			throw new \Exception("Lösenordet måste bestå av mellan 6 och 16 tecken.");
 		}
-		return true;
 	}
 	
 	private function encryptPassword($rawPassword, $salt) {

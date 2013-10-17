@@ -22,10 +22,10 @@ class RegController {
 				$user = $this->regView->getUser();
 				$this->regView->passwordMatch();
 				$this->loginModel->allUsers->regNewUser($user);
-				$this->regView->setMessage("Du har reggat en ny användare.");
+				$this->regView->setSuccessMessage();
 			}
 			catch(\Exception $e) {
-				$this->regView->setMessage($e->getMessage());
+				$this->regView->setFailMessage($e->getMessage());
 			}
 		}
 
