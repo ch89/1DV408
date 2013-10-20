@@ -1,0 +1,28 @@
+.list
+{
+    border: 1px solid #333;
+    border-collapse: collapse;
+    border-spacing: 0px;
+}
+
+.list th
+{
+    background: #333;
+    color: #FFF;
+}
+
+.list td, .list th
+{
+    padding: 5px 3px;
+    text-align: left;
+    vertical-align: middle;
+}
+
+.list tr:nth-child(even)
+{
+    background: #EEEEE8;
+}
+
+.error {
+	color: red;
+}
