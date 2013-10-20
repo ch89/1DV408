@@ -6,7 +6,7 @@ class BoatDAL {
 	private $mysqli;
 
 	public function BoatDAL() {
-		$this->mysqli = new mysqli("localhost", "root", "smultron3", "memberregister");
+		$this->mysqli = new mysqli("localhost", "root", "", "memberregister");
 	}
 
 	public function addBoat(Boat $boat) {
