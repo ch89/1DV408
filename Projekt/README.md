@@ -1,4 +1,4 @@
-Konsolsamling Dokumentation
+# Konsolsamling Dokumentation
 
 Som besökare har man endast rättigheter till att se registrerade
 konsoler samt tillhörande spel. Man kan söka i databasen efter registrerade
@@ -8,7 +8,7 @@ Search-länken. Observera att inte alla fält behöver fyllas i.
 Som Admin kan man lägga till en konsol genom att trycka på knappen
 "Register console" som finns på förstasidan "/"
 
-<<Lägga till konsol>>
+Lägga till konsol
 - Ett konsolnamn måste anges och kan inte bestå av mer än 50 tecken.
 - En utvecjlare måste anges och kan inte bestå av mer än 50 tecken.
 - Ett lanseringsdatum måste anges och vara på formen yyyy-mm-dd.
@@ -16,7 +16,7 @@ Som Admin kan man lägga till en konsol genom att trycka på knappen
 När en konsol är registrerade har man som admin rättigheter att editera eller ta
 bort en konsol. Tryck på Edit-knappen för att komma till redigeringssidan.
 
-<<Redigera konsol>>
+Redigera konsol
 
 Här visas konsolens nuvarande data och det går att redigera fälten
 och sedan trycka på uppdatera för att verkställa. Man kan också välja "cancel"
