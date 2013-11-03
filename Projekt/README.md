@@ -10,7 +10,7 @@ Som Admin kan man lägga till en konsol genom att trycka på knappen
 
 Lägga till konsol
 - Ett konsolnamn måste anges och kan inte bestå av mer än 50 tecken.
-- En utvecjlare måste anges och kan inte bestå av mer än 50 tecken.
+- En utvecklare måste anges och kan inte bestå av mer än 50 tecken.
 - Ett lanseringsdatum måste anges och vara på formen yyyy-mm-dd.
 
 När en konsol är registrerade har man som admin rättigheter att editera eller ta
@@ -20,9 +20,12 @@ Redigera konsol
 
 Här visas konsolens nuvarande data och det går att redigera fälten
 och sedan trycka på uppdatera för att verkställa. Man kan också välja "cancel"
-för att ågra sig och man tas då tillbaka föregående sida.
-Observera att samma valideringskrav gäller för uppdaterings som när man lägger till
-en ny konsol.
+för att ågra sig och man tas då till föregående sida.
+Observera att samma valideringskrav gäller för uppdatering som vid registrering av
+ny konsol.
+
+Man kan ta bort en konsol genom att trycka på delete-knappen
+och man får då bekräfta borttagningen via en popup.
 
 Genom att trycka på konsolens namn så tas man till sidan för registrerade spel för
 den konsolen "/Game/index/{console id}"
