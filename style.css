@@ -1,0 +1,24 @@
+table {
+    border: 1px solid #333;
+    border-collapse: collapse;
+    border-spacing: 0px;
+}
+
+th {
+    background: #333;
+    color: #FFF;
+}
+
+td, th {
+    padding: 5px 3px;
+    text-align: left;
+    vertical-align: middle;
+}
+
+tr:nth-child(even) {
+    background: #EEEEE8;
+}
+
+.error {
+	color: red;
+}

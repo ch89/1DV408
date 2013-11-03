@@ -73,3 +73,44 @@ class MemberDAL {
 		$statement->execute();
 	}
 }
+
+
+
+
+public function getGames($consoleId) {
+	$query = "SELECT * FROM Game WHERE consoleId = ?;";
+
+	$stmt = $this->mysqli->prepare($query);
+	$stmt->bind_param("i", $consoleId);
+
+	if(!$stmt->execute()) {
+		throw new Exception("Kunde inte hitta posten");
+	}
+
+	$stmt->bind_result($gameId, $title, $developer, $consoleId);
+
+	$games = array();
+	while($stmt->fetch()) {
+		$game = new Game();
+		$game->setGameId($gameId);
+		$game->setTitle($title);
+		$game->setDeveloper($developer);
+		$games[] = $game;
+	}
+
+	return $games;
+}
+
+if($stmt->fetch()) {
+	return new Console($consoleId, $name, $developer);
+}
+
+throw new Exception();
+
+
+try {
+	$this->service->getConsoleById($_GET["id"]);
+}
+catch() {
+	header("Location: index.php");
+}
