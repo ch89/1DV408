@@ -28,9 +28,7 @@ Man kan ta bort en konsol genom att trycka på delete-knappen
 och man får då bekräfta borttagningen via en popup.
 
 Genom att trycka på konsolens namn så tas man till sidan för registrerade spel för
-den konsolen "/Game/index/{console id}"
-
+den konsolen "/Game/index/{console id}".
 Här kan man som admin göra samma saker som med konsoler. 
 Det vill säga lägga till, uppdatera eller ta bort.
-
 Man kan inte ta bort en konsol om det finns registrerade spel till konsolen
