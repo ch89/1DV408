@@ -1,54 +1,82 @@
 <?php
 
 class Boat {
-	private $boatID;
+	// @var int $boatId
+	private $boatId;
+
+	// @var string $type
 	private $type;
+
+	// @var string $length
 	private $length;
-	private $memberID;
+
+	// @var string $memberId
+	private $memberId;
+
+	// @var array of strings $errors
+	// Innehåller valideringsfel
 	private $errors;
 
-	public function Boat($type, $length) {
+	public function Boat() {
 		$this->errors = array();
-		$this->type = $type;
-		$this->setLength($length);
 	}
 
+	// @return bool
 	public function hasErrors() {
 		return count($this->errors) > 0;
 	}
 
+	// @return array of strings
 	public function getErrors() {
 		return $this->errors;
 	}
 
-	public function setBoatID($boatID) {
-		$this->boatID = $boatID;
+	// @param int $gameId
+	public function setBoatId($boatId) {
+		$this->boatId = $boatId;
 	}
 
-	public function setLength($length) {
-		if(!is_numeric($length)) {
-			$this->errors[] = "Båtens längd måste anges.";
-		}
-		$this->length = $length;
+	// @return int
+	public function getBoatId() {
+		return $this->boatId;
 	}
 
-	public function setMemberID($memberID) {
-		$this->memberID = $memberID;
+	// @param string $type
+	public function setType($type) {
+		$this->type = $type;
 	}
 
-	public function getBoatID() {
-		return $this->boatID;
-	}
-
+	// @return string
 	public function getType() {
 		return $this->type;
 	}
 
+	// @param string $length
+	public function setLength($length) {
+		if(empty($length)) {
+			$this->errors[] = "A length is required.";
+		}
+		else if(!is_numeric($length)) {
+			$this->errors[] = "The length must be a number.";
+		}
+		else if($length > 10) {
+			$this->errors[] = "The length can't be more than 10 meters.";
+		}
+		$this->length = $length;
+	}
+
+	// @return string
 	public function getLength() {
 		return $this->length;
 	}
 
-	public function getMemberID() {
-		return $this->memberID;
+	// @param int $memberId
+	public function setMemberId($memberId) {
+		$this->memberId = $memberId;
+	}
+
+	// @return int
+	public function getMemberId() {
+		return $this->memberId;
 	}
 }

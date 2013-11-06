@@ -1,177 +1,197 @@
 <?php
 
-class MemberView {
-	private static $add = "add";
-	private static $update = "update";
-	private static $delete = "delete";
-	private static $errors = "view::MemberView::errors";
-	private static $action = "action";
-	private static $memberID = "id";
+class MemberView extends View {
+	// @var string $name;
 	private static $name = "view::MemberView::name";
+
+	// @var string $socialSecurityNumber;
 	private static $socialSecurityNumber = "view::MemberView::socialSecurityNumber";
+
+	// @var string $numberOfBoats;
 	private static $numberOfBoats = "view::MemberView::numberOfBoats";
-	private static $submit = "view::MemberView::submit";
-	private $service;
-	private $message;
 
-	public function MemberView(Service $service) {
-		$this->service = $service;
-	}
+	// @var string $add;
+	private static $add = "view::MemberView::add";
 
-	public function setErrorMessage($errors) {
-		$_SESSION[self::$errors] = $errors;
-	}
+	// @var string $errors;
+	private static $errors = "view::MemberView::errors";
 
-	public function getErrorMessage($errors) {
-		$html = "<ul class='error'>";
+	// @param array $members
+	// @return string HTML
+	public function index(array $members) {
+		$html = "<h3>Members - Compact List</h3>";
 
-		foreach($errors as $error) {
-			$html .= "<li>$error</li>";
+		$html .= $this->getRegButton();
+		$html .= $this->getFullList();
+
+		if(count($members) > 0) {
+			$html .= "<table class='list'>";
+			$html .= $this->getTableHeader();
+
+			foreach($members as $member) {
+				$html .= $this->getTableRow($member);
+			}
+
+			$html .= "</table>";
 		}
-		$html .= "</ul>";
+		else {
+			$html .= "<p>No registered members</p>";
+		}
 
 		return $html;
 	}
 
-	public function getMembersHTML() {
-		$members = $this->service->getMembers();
+	public function details($members, $service) {
+		$html = "<h3>Members - Full List</h3>";
+
+		$html .= $this->getRegButton();
+		$html .= $this->getCompactList();
 
 		if(count($members) > 0) {
-			$memberListHTML = "<table class='list'>";
-			$memberListHTML .= $this->getTableHeader();
-
-			if(isset($_GET["edit"]) && isset($_GET["id"])) {
-				foreach($members as $member) {
-					$memberListHTML .= $this->getMemberHTMLEdit($member);
+			foreach($members as $member) {
+				$html .= "<table class='full'>";
+				$html .= $this->getMemberDetails($member);
+				$boats = $service->getBoats($member->getMemberId());
+				$num = 0;
+				foreach ($boats as $boat) {
+					$type = $boat->getType();
+					$length = $boat->getLength();
+					$num++;
+					$html .= "<tr>
+								<td class='header'>Boat $num - Type:</td>
+								<td>$type</td>
+							</tr>";
+					$html .= "<tr>
+								<td class='header'>Boat $num - Length:</td>
+								<td>$length</td>
+							</tr>";
 				}
+				$html .= "</table>";
 			}
-			else {
-				foreach($members as $member) {
-					$memberListHTML .= $this->getMemberHTML($member);
-				}
-			}
-			
-			$memberListHTML .= "</table>";
 		}
 		else {
-			$memberListHTML = "<p>No registered members.</p>";
+			$html .= "<p>No registered members</p>";
 		}
-		
-		$memberListHTML .= $this->getForm();
 
-		return $memberListHTML;
+		return $html;
 	}
 
-	private function getMemberHTMLEdit($member) {
-		$memberID = $member->getMemberID();
-		$name = $member->getName();
-		$socialSecurityNumber = $member->getSocialSecurityNumber();
-		$numberOfBoats = $member->getNumberOfBoats();
-		
-		if($_GET["id"] == $memberID) {
+	// @return string
+	private function getCompactList() {
+		return "<a href='/'><button>Compact List</button></a>";
+	}
 
-			return "<form action='?update&id=$memberID' method='post'>
-						<tr>
-							<td>$memberID</td>
-							<td><input type='text' name='" . self::$name . "' value='$name'></td>
-							<td><input type='text' name='" . self::$socialSecurityNumber . "' value='$socialSecurityNumber'></td>
-							<td>
-								<input type='submit' value='Update'>
-								</form>
-								<a href='index.php'><button>Cancel</button></a>
-							</td>
-						</tr>";
+	// @return string
+	private function getFullList() {
+		return "<a href='/Member/details'><button>Full List</button></a>";
+	}
+
+	// @return string
+	private function getRegButton() {
+		return "<a href='/Member/save'><button>Register Member</button></a>";
+	}
+
+	// @param Member $member
+	// @return string
+	// Skickas en medlem med så ska vi visa vyn för uppdatering av medlem,
+	// annars ska vi visa vyn för att lägga till en medlem
+	public function save(Member $member = null) {
+		if($member) {
+			$header = "Edit Member";
+			$buttonText = "Update";
 		}
 		else {
-			return "<tr>
-						<td>$memberID</td>
-						<td><a href='boats.php?memberID=$memberID'>$name</a></td>
-						<td>$socialSecurityNumber</td>
-						<td>
-							<a href='?edit&id=$memberID'><button>Edit</button></a>
-							<a href='?delete&id=$memberID'><button>Delete</button></a>
-						</td>
-					</tr>";
+			$header = "Register Member";
+			$buttonText = "Add";
 		}
+		$html = "<h3>$header</h3>";
+		$html .= $this->getForm($buttonText, $member);
+
+		if(!empty($this->message)) {
+			$html .= $this->getErrorMessage($this->message);
+		}
+		return $html;
 	}
 
-	private function getMemberHTML(Member $member) {
-		$memberID = $member->getMemberID();
-		$name = $member->getName();
-		$numberOfBoats = $member->getNumberOfBoats();
-		
-		return "<tr>
-					<td><a href='boats.php?memberID=$memberID'>$name</a></td>
-					<td>$memberID</td>
-					<td>$numberOfBoats</td>
-					<td>
-						<a href='?edit&id=$memberID'><button>Edit</button></a>
-						<a href='?delete&id=$memberID'><button>Delete</button></a>
-					</td>
-				</tr>";
-	}
+	// @param string $buttonText
+	// @param Console $member
+	// @retun string HTML
+	// skickas en medlem med ska formulär för uppdatering visas,
+	// annars ska formulär för att lägga till medlem visas
+	public function getForm($buttonText, $member) {
+		if($member) {
+			$memberId = $member->getMemberId();
+			$name = $member->getName();
+			$socialSecurityNumber = $member->getSocialSecurityNumber();
+		}
+		else {
+			$memberId = "";
+			$name = "";
+			$socialSecurityNumber = "";
+		}
 
-	private function getTableHeader() {
-		return "<tr>
-                	<th>Namn</th>
-                	<th>Medlemsnummer</th>
-                	<th>Antal båtar</th>
-                	<th></th>
-                </tr>";
-	}
-
-	private function getForm() {
-		$html = "<h3>Registrera ny medlem</h3>";
-		$html .= "<form action='?add' method='post'>
+		return "<form action='/Member/save/$memberId' method='post'>
 					<table>
 						<tr>
-							<td>Namn:</td>
-							<td><input type='text' name='" . self::$name . "'></td>
+							<td>Name:</td>
+							<td><input type='text' name='" . self::$name . "' value='$name'></td>
 						</tr>
 						<tr>
-							<td>Personnummer (ÅÅMMDD-NNNC):</td>
-							<td><input type='text' name='" . self::$socialSecurityNumber . "'></td>
+							<td>Social Security Number (ååmmdd-nnnc):</td>
+							<td><input type='text' name='" . self::$socialSecurityNumber . "' value='$socialSecurityNumber'></td>
 						</tr>
 						<tr>
-							<td><input type='submit' name='" . self::$submit . "' value='Add'></td>
+							<td>
+								<input type='submit' name='" . self::$add . "' value='$buttonText'>
+								<a href='/'><button type='button'>Cancel</button></a>
+							</td>
 							<td></td>
 						</tr>
 					</table>
 				</form>";
-
-		if(isset($_SESSION[self::$errors])) {
-			$html .= $this->getErrorMessage($_SESSION[self::$errors]);
-			unset($_SESSION[self::$errors]);
-		}
-
-		return $html;
 	}
 
-	public function addMember() {
-		return isset($_POST[self::$submit]);
+	// @return string
+	private function getTableHeader() {
+		return "<tr>
+					<th>Name</th>
+					<th>Member Number</th>
+					<th>Number Of Boats</th>
+					<th></th>
+				</tr>";
 	}
 
+	// @return Member $member
+	// hämtar ut en medlem från post när vi försöker lägga till/uppdatera en medlem
 	public function getMember() {
-		return new Member($_POST[self::$name], $_POST[self::$socialSecurityNumber]);
+		$member = new Member();
+		$member->setName($this->filter($_POST[self::$name]));
+		$member->setSocialSecurityNumber($this->filter($_POST[self::$socialSecurityNumber]));
+		return $member;
 	}
 
-	public function hasMemberID() {
-		return isset($_GET[self::$memberID]);
+	// @param Member $member
+	// @return string
+	// Generarar html för ett medlemsobjekt. Är vi inloggade kan vi editera eller ta bort en medlem
+	private function getTableRow(Member $member) {
+		$memberId = $member->getMemberId();
+		$name = $member->getName();
+		$socialSecurityNumber = $member->getSocialSecurityNumber();
+		$numberOfBoats = $member->getNumberOfBoats();
+
+		return "<tr>
+					<td><a href='/Boat/index/$memberId'>$name</a></td>
+					<td>$memberId</td>
+					<td>$numberOfBoats</td>
+					<td>
+						<a href='/Member/save/$memberId'><button>Edit</button></a>
+						<a href='/Member/delete/$memberId' class='delete'><button>Delete</button></a>
+				    </td>
+			    </tr>";
 	}
 
-	public function getMemberID() {
-		return $_GET[self::$memberID];
-	}
-
-	public function createsMember() {
-		return isset($_GET[self::$add]);
-	}
-
-	public function updatesMember() {
-		return isset($_GET[self::$update]);
-	}
-
-	public function deletesMember() {
-		return isset($_GET[self::$delete]);
+	// @return bool
+	public function submit() {
+		return isset($_POST[self::$add]);
 	}
 }

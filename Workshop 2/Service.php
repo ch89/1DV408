@@ -2,10 +2,12 @@
 
 class Service {
 
-	// Member
+	// Console 
 
+	// @var ConsoleDAL $memberDAL
 	private $memberDAL;
 
+	// @return ConsoleDAL $memberDAL
 	public function getMemberDAL() {
 		if(isset($this->memberDAL)) {
 			return $this->memberDAL;
@@ -15,32 +17,32 @@ class Service {
 		}
 	}
 
+	// @return array of Console objects
 	public function getMembers() {
 		return $this->getMemberDAL()->getMembers();
 	}
 
-	public function getMember($memberID) {
-		return $this->getMemberDAL()->getMember($memberID);
+	// @return Console
+	public function getMember($memberId) {
+		return $this->getMemberDAL()->getMember($memberId);
 	}
 
-	public function addMember(Member $member) {
-		$this->getMemberDAL()->addMember($member);
+	// @param int $memberId
+	public function deleteMember($memberId) {
+		$this->getMemberDAL()->deleteMember($memberId);
 	}
 
-	public function updateMember(Member $member) {
-		$this->getMemberDAL()->updateMember($member);
+	// @param Console $console
+	public function saveMember(Member $member) {
+		$this->getMemberDAL()->saveMember($member);
 	}
-
-	public function deleteMember($memberID) {
-		$this->getMemberDAL()->deleteMember($memberID);
-	}
-
-
 
 	// Boat
 
+	// @var BoatDAL $boatDAL
 	private $boatDAL;
 
+	// @return GameDAL $boatDAL
 	public function getBoatDAL() {
 		if(isset($this->boatDAL)) {
 			return $this->boatDAL;
@@ -50,19 +52,24 @@ class Service {
 		}
 	}
 
-	public function getBoats($memberID) {
-		return $this->getBoatDAL()->getBoats($memberID);
+	// @return array of Game objects
+	public function getBoats($memberId) {
+		return $this->getBoatDAL()->getBoats($memberId);
 	}
 
-	public function addBoat(Boat $boat) {
-		$this->getBoatDAL()->addBoat($boat);
+	// @return Game 
+	public function getBoat($boatId) {
+		return $this->getBoatDAL()->getBoat($boatId);
 	}
 
-	public function updateBoat(Boat $boat) {
-		$this->getBoatDAL()->updateBoat($boat);
+	// @param Game $game
+	public function saveBoat(Boat $boat) {
+		$this->getBoatDAL()->saveBoat($boat);
 	}
 
-	public function deleteBoat($boatID, $memberID) {
-		$this->getBoatDAL()->deleteBoat($boatID, $memberID);
+	// @param int $boatId
+	// @param int $memberId
+	public function deleteBoat($boatId, $memberId) {
+		$this->getBoatDAL()->deleteBoat($boatId, $memberId);
 	}
 }

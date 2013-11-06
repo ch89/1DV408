@@ -1,63 +1,59 @@
 <?php
 
-class MemberController {
+require_once("MemberDAL.php");
+
+class MemberController extends Controller {
+	// @var MemberView $memberView
 	private $memberView;
-	private $service;
-	private $memberList;
-
+	
 	public function MemberController() {
-		$this->memberList = new MemberList();
-		$this->service = new Service();
-		$this->memberView = new MemberView($this->service);
+		parent::Controller();
+		$this->memberView = new MemberView();
 	}
 
-	public function handleRequest() {
-		if($this->memberView->createsMember()) {
-			$this->addMember();
+	// @return string
+	// Listar samtliga registrerade medlemmar
+	public function index() {
+		$members = $this->service->getMembers();
+		return $this->memberView->index($members);
+	}
+
+	public function details() {
+		$members = $this->service->getMembers();
+		return $this->memberView->details($members, $this->service);
+	}
+
+	// @return string
+	// Lägger till en medlem om ett id saknas annars uppdaters en befintlig medlem
+	public function save($memberId = null) {
+		if($this->memberView->submit()) {
+			$member = $this->memberView->getMember();
+
+			if($member->hasErrors()) {
+				$this->memberView->setErrorMessage($member->getErrors());
+			}
+			else {
+				$member->setMemberId($memberId);
+				$this->service->saveMember($member);
+				$this->navigator->redirectToMemberIndex();
+				return;
+			}
 		}
-		else if($this->memberView->updatesMember()) {
-			$this->updateMember();
-		}
-		else if($this->memberView->deletesMember()) {
-			$this->deleteMember();
+
+		if($memberId) {
+			$member = $this->service->getMember($memberId);
+			return $this->memberView->save($member);
 		}
 		else {
-			return $this->memberView->getMembersHTML();	
+			return $this->memberView->save();
 		}
+		$this->navigator->redirectToMemberIndex();
 	}
 
-	private function addMember() {
-		$member = $this->memberView->getMember();
-		
-		if($member->hasErrors()) {
-			$this->memberView->setErrorMessage($member->getErrors());
-		}
-		else {
-			$this->service->addMember($member);
-		}
-
-		header("Location: index.php");
-	}
-
-	private function updateMember() {
-		$member = $this->memberView->getMember();
-
-		if($member->hasErrors()) {
-
-			$this->memberView->setErrorMessage($member->getErrors());
-		}
-		else {
-			$member->setMemberID($_GET["id"]);
-			$this->service->updateMember($member);
-		}
-
-		header("Location: index.php");
-	}
-
-	private function deleteMember() {
-		$id = $this->memberView->getMemberID();
-		$this->service->deleteMember($id);
-
-		header("Location: index.php");
+	// @param int $memberId
+	// Tar bort en medlem med det specifika id't
+	public function delete($memberId) {
+		$this->service->deleteMember($memberId);
+		$this->navigator->redirectToMemberIndex();
 	}
 }
