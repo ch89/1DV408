@@ -5,7 +5,7 @@ class DALBase {
 	private $mysqli;
 
 	public function DALBase() {
-		$this->mysqli = new mysqli("10.101.1.80", "185903_lr53601", "smultron3", "185903-consolecollection");
+		$this->mysqli = new mysqli();
 	}
 
 	// @return mysqli
