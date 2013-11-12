@@ -5,7 +5,7 @@ for(var i = 0; i < deleteButtons.length; i++) {
 }
 
 function confirmDelete(e) {
-	if(!confirm("you sure?")) {
+	if(!confirm("Are you sure you want to delete?")) {
 		e.preventDefault();
 	}
 }

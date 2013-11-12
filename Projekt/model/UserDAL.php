@@ -1,5 +1,7 @@
 <?php
 
+namespace model;
+
 class UserDAL extends DALBase {
 
 	// @param string $username

@@ -10,13 +10,14 @@ class Router {
 
 		$controllerFile = $controller . "Controller.php";
 
-		if(file_exists($controllerFile)) {
+		if(file_exists("controller/" . $controllerFile)) {
 
 			$controller = file_exists($controllerFile) ? $controller : "Console";
-			require_once($controllerFile);
+			require_once("controller/$controllerFile");
 
-			$controller .= "Controller";
-			$controller = new $controller();
+			$controller = "controller\\" . $controller . "Controller";
+
+			$controller = new $controller;
 
 			$method = method_exists($controller, $method) ? $method : "index";
 

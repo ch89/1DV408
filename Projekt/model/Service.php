@@ -1,5 +1,7 @@
 <?php
 
+namespace model;
+
 class Service {
 
 	// Console 
@@ -13,7 +15,7 @@ class Service {
 			return $this->consoleDAL;
 		}
 		else {
-			return new ConsoleDAL();
+			return new \ConsoleDAL();
 		}
 	}
 
@@ -33,7 +35,7 @@ class Service {
 	}
 
 	// @param Console $console
-	public function saveConsole(Console $console) {
+	public function saveConsole(\model\Console $console) {
 		$this->getConsoleDAL()->saveConsole($console);
 	}
 
@@ -48,7 +50,7 @@ class Service {
 			return $this->gameDAL;
 		}
 		else {
-			return new GameDAL();
+			return new \GameDAL();
 		}
 	}
 
@@ -63,7 +65,7 @@ class Service {
 	}
 
 	// @param Game $game
-	public function saveGame(Game $game) {
+	public function saveGame(\model\Game $game) {
 		$this->getGameDAL()->saveGame($game);
 	}
 
@@ -74,7 +76,7 @@ class Service {
 	}
 
 	// @return array of Game objects
-	public function searchGame(Game $game) {
+	public function searchGame(\model\Game $game) {
 		return $this->getGameDAL()->searchGame($game);
 	}
 
@@ -89,7 +91,7 @@ class Service {
 			return $this->userDAL;
 		}
 		else {
-			return new UserDAL();
+			return new \UserDAL();
 		}
 	}
 

@@ -1,5 +1,7 @@
 <?php
 
+namespace model;
+
 class AuthenticationModel {
 	// @var string $username
 	private static $username = "model::AuthenticationModel::username";

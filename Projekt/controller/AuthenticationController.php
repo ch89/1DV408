@@ -1,5 +1,7 @@
 <?php
 
+namespace controller;
+
 class AuthenticationController extends Controller {
 	
 	// @var AuthenticationView $authenticationView
@@ -7,7 +9,7 @@ class AuthenticationController extends Controller {
 	
 	public function AuthenticationController() {
 		parent::Controller();
-		$this->authenticationView = new AuthenticationView($this->authenticationModel);
+		$this->authenticationView = new \view\AuthenticationView($this->authenticationModel);
 	}
 
 	// @return string

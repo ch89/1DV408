@@ -1,5 +1,7 @@
 <?php
 
+namespace view;
+
 class AuthenticationView extends ViewBase {
 
 	// @var string $username
@@ -17,13 +19,13 @@ class AuthenticationView extends ViewBase {
 	// @var AuthenticationModel $authenticationModel
 	private $authenticationModel;
 
-	public function AuthenticationView(AuthenticationModel $authenticationModel) {
+	public function AuthenticationView(\model\AuthenticationModel $authenticationModel) {
 		$this->authenticationModel = $authenticationModel;
 	}
 
 	// @return string
 	public function offlineView() {
-		$html = "<h2>Logga in</h2>";
+		$html = "<h2>Log in</h2>";
 		$html .= $this->getLoginForm();
 		return $html;
 	}
@@ -33,15 +35,15 @@ class AuthenticationView extends ViewBase {
 		$html = "<form action='/Authentication/login' method='post'>
 					<table>
 						<tr>
-							<td>Användarnamn</td>
+							<td>Username:</td>
 							<td><input type='text' name='" . self::$username . "'></td>
 						</tr>
 						<tr>
-							<td>Lösenord</td>
+							<td>Password:</td>
 							<td><input type='password' name='" . self::$password . "'></td>
 						</tr>
 						<tr>
-							<td><input type='submit' name='" . self::$login . "' value='Logga in'></td>
+							<td><input type='submit' name='" . self::$login . "' value='Log in'></td>
 							<td></td>
 						</tr>
 					</table>
@@ -57,14 +59,14 @@ class AuthenticationView extends ViewBase {
 	// @return string
 	public function onlineView() {
 		$username = $this->authenticationModel->getUsername();
-		$html = "<p>Inloggad som $username</p>";
+		$html = "<p>Logged in as $username</p>";
 		$html .= $this->getLogoutButton();
 		return $html;
 	}
 
 	// @return string
 	private function getLogoutButton() {
-		return "<a href='/Authentication/logout'><button>Logga ut</button></a>";
+		return "<a href='/Authentication/logout'><button>Log out</button></a>";
 	}
 
 	// @return bool
@@ -75,7 +77,7 @@ class AuthenticationView extends ViewBase {
 	// @return User
 	public function getUser() {
 		$password = $this->hashPassword($_POST[self::$password]);
-		return new User($_POST[self::$username], $password);
+		return new \model\User($_POST[self::$username], $password);
 	}
 
 	// @return string

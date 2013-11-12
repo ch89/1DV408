@@ -1,5 +1,7 @@
 <?php
 
+namespace model;
+
 class ConsoleDAL extends DALBase {
 
 	// @return array av Console objects
@@ -17,7 +19,7 @@ class ConsoleDAL extends DALBase {
 		$consoles = array();
 		
 		while($stmt->fetch()) {
-			$console = new Console();
+			$console = new \model\Console();
 			$console->setConsoleId($consoleId);
 			$console->setName($name);
 			$console->setDeveloper($developer);
@@ -51,7 +53,7 @@ class ConsoleDAL extends DALBase {
 	// @param Console $console
 	// Har konsolen ett ID så finns den redan och ska uppdateras, 
 	// annars ska det skapas en ny konsol
-	public function saveConsole(Console $console) {
+	public function saveConsole(\model\Console $console) {
 		$name = $console->getName();
 		$developer = $console->getDeveloper();
 		$releaseDate = $console->getReleaseDate();

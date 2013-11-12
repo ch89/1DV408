@@ -1,12 +1,14 @@
 <?php
 
+namespace controller;
+
 class GameController extends Controller {
 	// @var GameView $gameView
 	private $gameView;
 	
 	public function GameController() {
 		parent::Controller();
-		$this->gameView = new GameView($this->authenticationModel);
+		$this->gameView = new \view\GameView($this->authenticationModel);
 	}
 
 
@@ -17,9 +19,16 @@ class GameController extends Controller {
 	public function index($consoleId) {
 		if(is_numeric($consoleId)) {
 			$games = $this->service->getGames($consoleId);
-			return $this->gameView->index($games, $consoleId);
+			$console = $this->service->getConsole($consoleId);
+			return $this->gameView->index($games, $console);
 		}
 		throw new Exception("Invalid argument.");
+	}
+
+	public function details($gameId, $consoleId) {
+		$game = $this->service->getGame($gameId);
+		$console = $this->service->getConsole($consoleId);
+		return $this->gameView->details($game, $console);
 	}
 
 	// @param int $consoleId
@@ -39,16 +48,32 @@ class GameController extends Controller {
 					$game->setConsoleId($consoleId);
 					$game->setGameId($gameId);
 					$this->service->saveGame($game);
+
+					if($this->gameView->uploadImage()) {
+						$this->gameView->storeImage();
+					}
+					
 					$this->navigator->redirectToGameIndex($consoleId);
 					return;
 				}
 			}
+
 			if($gameId) {
-				$game = $this->service->getGame($gameId);
+				if($game) {
+					$game->setGameId($gameId);
+				}
+				else {
+					$game = $this->service->getGame($gameId);
+				}
 				return $this->gameView->save($consoleId, $game);
 			}
 			else {
-				return $this->gameView->save($consoleId);
+				if($game) {
+					return $this->gameView->save($consoleId, $game);
+				}
+				else {
+					return $this->gameView->save($consoleId);
+				}
 			}
 		}
 		$this->navigator->redirectToConsoleIndex();
@@ -59,6 +84,12 @@ class GameController extends Controller {
 	// Ta bort spel med det angivna id't
 	public function delete($consoleId, $gameId) {
 		if($this->authenticationModel->isLoggedin()) {
+			$game = $this->service->getGame($gameId);
+
+			if($game->getImage()) {
+				$this->gameView->removeImage($game->getImage());
+			}
+
 			$this->service->deleteGame($gameId, $consoleId);
 		}
 		$this->navigator->redirectToGameIndex($consoleId);

@@ -1,5 +1,7 @@
 <?php
 
+namespace model;
+
 class User {
 	// @var string $username
 	private $username;
@@ -11,10 +13,10 @@ class User {
 	// @param string $password
 	public function User($username, $password) {
 		if(empty($username)) {
-			throw new Exception("Ett användarnamn måste anges.");
+			throw new Exception("Username is required.");
 		}
 		if(empty($password)) {
-			throw new Exception("Ett lösenord måste anges.");
+			throw new Exception("Password is required.");
 		}
 		$this->username = $username;
 		$this->password = $password;

@@ -1,5 +1,7 @@
 <?php
 
+namespace model;
+
 class Console {
 	// @var int $consoleId
 	private $consoleId;
@@ -47,10 +49,10 @@ class Console {
 	// @param string $name
 	public function setName($name) {
 		if(empty($name)) {
-			$this->errors[] = "Ett namn måste anges.";
+			$this->errors[] = "A name is required.";
 		}
 		else if(strlen($name) > 50) {
-			$this->errors[] = "Namnet kan inte bestå av mer än 50 tecken.";
+			$this->errors[] = "The name can't consist of more than 50 characters.";
 		}
 		$this->name = $name;
 	}
@@ -63,10 +65,10 @@ class Console {
 	// @param string $developer
 	public function setDeveloper($developer) {
 		if(empty($developer)) {
-			$this->errors[] = "En utvecklare måste anges.";
+			$this->errors[] = "A developer is required.";
 		}
 		else if(strlen($developer) > 50) {
-			$this->errors[] = "Utvecklaren kan inte bestå av mer än 50 tecken.";
+			$this->errors[] = "The developer can't consist of more than 50 characters.";
 		}
 		$this->developer = $developer;
 	}
@@ -79,7 +81,7 @@ class Console {
 	// @param string $releaseDate
 	public function setReleaseDate($releaseDate) {
 		if(!preg_match("/^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])$/", $releaseDate)){
-			$this->errors[] = "Ett giltigt datum måste anges.";
+			$this->errors[] = "Invalid date form. Must be of type yyyy-mm-dd.";
 		}
 		$this->releaseDate = $releaseDate;
 	}

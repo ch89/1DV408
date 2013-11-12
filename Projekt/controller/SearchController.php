@@ -1,12 +1,14 @@
 <?php
 
+namespace controller;
+
 class SearchController extends Controller {
 	// @var SearchView $searchView
 	private $searchView;
 
 	public function SearchController() {
 		parent::Controller();
-		$this->searchView = new SearchView();
+		$this->searchView = new \view\SearchView();
 	}
 
 	// @return string

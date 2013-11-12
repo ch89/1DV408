@@ -1,6 +1,6 @@
 <?php
 
-require_once("ConsoleDAL.php");
+namespace controller;
 
 class ConsoleController extends Controller {
 	// @var ConsoleView $consoleView
@@ -8,7 +8,7 @@ class ConsoleController extends Controller {
 	
 	public function ConsoleController() {
 		parent::Controller();
-		$this->consoleView = new ConsoleView($this->authenticationModel);
+		$this->consoleView = new \view\ConsoleView($this->authenticationModel);
 	}
 
 	// @return string
@@ -37,11 +37,21 @@ class ConsoleController extends Controller {
 			}
 
 			if($consoleId) {
-				$console = $this->service->getConsole($consoleId);
+				if($console) {
+					$console->setConsoleId($consoleId);	
+				}
+				else {
+					$console = $this->service->getConsole($consoleId);
+				}
 				return $this->consoleView->save($console);
 			}
 			else {
-				return $this->consoleView->save();
+				if($console) {
+					return $this->consoleView->save($console);
+				}
+				else {
+					return $this->consoleView->save();
+				}
 			}
 		}
 		$this->navigator->redirectToConsoleIndex();
@@ -56,3 +66,9 @@ class ConsoleController extends Controller {
 		$this->navigator->redirectToConsoleIndex();
 	}
 }
+
+/*
+
+
+
+*/

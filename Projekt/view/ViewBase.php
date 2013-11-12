@@ -1,5 +1,7 @@
 <?php
 
+namespace view;
+
 class ViewBase {
 	// @var string $message
 	public $message;

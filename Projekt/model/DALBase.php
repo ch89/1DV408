@@ -1,11 +1,13 @@
 <?php
 
+namespace model;
+
 class DALBase {
 	// @var mysqli $mysqli
 	private $mysqli;
 
 	public function DALBase() {
-		$this->mysqli = new mysqli();
+		$this->mysqli = new mysqli("localhost", "root", "", "console");
 	}
 
 	// @return mysqli

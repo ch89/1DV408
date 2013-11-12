@@ -1,5 +1,7 @@
 <?php
 
+namespace view;
+
 class Navigator {
 	public function redirectToConsoleIndex() {
 		header("Location: /");

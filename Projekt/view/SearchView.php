@@ -1,5 +1,7 @@
 <?php
 
+namespace view;
+
 class SearchView extends GameViewBase {
 
 	// @param array of Game objects
@@ -29,23 +31,23 @@ class SearchView extends GameViewBase {
 		return "<form action='/Search' method='post'>
 					<table>
 						<tr>
-							<td>Titel</td>
+							<td>Title</td>
 							<td><input type='text' name='title'></td>
 						</tr>
 						<tr>
-							<td>Utvecklare</td>
+							<td>Developer</td>
 							<td><input type='text' name='developer'></td>
 						</tr>
 						<tr>
-							<td>Lanseringsdatum</td>
+							<td>Release Date</td>
 							<td><input type='text' name='releaseDate'></td>
 						</tr>
 						<tr>
-							<td>Kategori</td>
+							<td>Category</td>
 							<td><input type='text' name='category'></td>
 						</tr>
 						<tr>
-							<td><input type='submit' name='submit' value='Sök'></td>
+							<td><input type='submit' name='submit' value='Search'></td>
 							<td></td>
 						</tr>
 					</table>

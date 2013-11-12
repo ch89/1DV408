@@ -1,5 +1,7 @@
 <?php
 
+namespace view;
+
 class ConsoleView extends ViewBase {
 	// @var string $name;
 	private static $name = "view::ConsoleView::name";
@@ -51,15 +53,15 @@ class ConsoleView extends ViewBase {
 
 	// @return string
 	private function getRegButton() {
-		return "<a href='Console/save'><button>Registrera konsol</button></a>";
+		return "<a href='Console/save'><button>Register Console</button></a>";
 	}
 
 	// @param Console $console
 	// @return string
 	// Skickas en konsol med så ska vi visa vyn för uppdatering av konsol,
 	// annars ska vi visa vyn för att lägga till en konsol
-	public function save(Console $console = null) {
-		if($console) {
+	public function save(\model\Console $console = null) {
+		if($console && $console->getConsoleId()) {
 			$header = "Edit Console";
 			$buttonText = "Update";
 		}
@@ -81,7 +83,7 @@ class ConsoleView extends ViewBase {
 	// @retun string HTML
 	// skickas en konsol med ska formulär för uppdatering visas,
 	// annars ska formulär för att lägga till konsol visas
-	public function getForm($buttonText, $console) {
+	public function getForm($buttonText, \model\Console $console) {
 		if($console) {
 			$consoleId = $console->getConsoleId();
 			$name = $console->getName();
@@ -98,15 +100,15 @@ class ConsoleView extends ViewBase {
 		return "<form action='/Console/save/$consoleId' method='post'>
 					<table>
 						<tr>
-							<td>Name</td>
+							<td>Name:</td>
 							<td><input type='text' name='" . self::$name . "' value='$name'></td>
 						</tr>
 						<tr>
-							<td>Developer</td>
+							<td>Developer:</td>
 							<td><input type='text' name='" . self::$developer . "' value='$developer'></td>
 						</tr>
 						<tr>
-							<td>Release Date</td>
+							<td>Release Date (yyyy-mm-dd):</td>
 							<td><input type='text' name='" . self::$releaseDate . "' value='$releaseDate'></td>
 						</tr>
 						<tr>
@@ -137,7 +139,7 @@ class ConsoleView extends ViewBase {
 	// @return Console $console
 	// hämtar ut en konsol från post när vi försöker lägga till/uppdatera en konsol
 	public function getConsole() {
-		$console = new Console();
+		$console = new \model\Console();
 		$console->setName($this->filter($_POST[self::$name]));
 		$console->setDeveloper($this->filter($_POST[self::$developer]));
 		$console->setReleaseDate($this->filter($_POST[self::$releaseDate]));
@@ -147,7 +149,7 @@ class ConsoleView extends ViewBase {
 	// @param Console $console
 	// @return string
 	// Generarar html för ett konsolobjekt. Är vi inloggade kan vi editera eller ta bort en konsol
-	private function getTableRow(Console $console) {
+	private function getTableRow(\model\Console $console) {
 		$consoleId = $console->getConsoleId();
 		$name = $console->getName();
 		$developer = $console->getDeveloper();
@@ -162,7 +164,7 @@ class ConsoleView extends ViewBase {
 		if($this->authenticationModel->isLoggedin()) {
 			$html .= "<td>
 						<a href='/Console/save/$consoleId'><button>Edit</button></a>
-						<a class='delete' href='/Console/delete/$consoleId'><button>Delete</button></a>
+						<a href='/Console/delete/$consoleId' class='delete'><button>Delete</button></a>
 				    </td>";
 		}
 					

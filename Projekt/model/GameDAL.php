@@ -1,5 +1,7 @@
 <?php
 
+namespace model;
+
 class GameDAL extends DALBase {
 
 	// @param string $sql
@@ -9,16 +11,17 @@ class GameDAL extends DALBase {
 		$stmt = $this->getMysqli()->prepare($sql);
 		$stmt->bind_param("i", $id);
 		$stmt->execute();
-		$stmt->bind_result($gameId, $title, $developer, $releaseDate, $category, $consoleId);
+		$stmt->bind_result($gameId, $title, $developer, $releaseDate, $category, $image, $consoleId);
 		$games = array();
 
 		while($stmt->fetch()) {
-			$game = new Game();
+			$game = new \model\Game();
 			$game->setGameId($gameId);
 			$game->setTitle($title);
 			$game->setDeveloper($developer);
 			$game->setReleaseDate($releaseDate);
 			$game->setCategory($category);
+			$game->setImage($image);
 			$game->setConsoleId($consoleId);
 			$games[] = $game;
 		}
@@ -51,24 +54,32 @@ class GameDAL extends DALBase {
 	// @param Game $game
 	// har spelobjektet ett id så finns det redan och ska därmed uppdateras,
 	// annars ska det skapas ett nytt spelobjekt
-	public function saveGame(Game $game) {
+	public function saveGame(\model\Game $game) {
 		$title = $game->getTitle();
 		$developer = $game->getDeveloper();
 		$releaseDate = $game->getReleaseDate();
 		$category = $game->getCategory();
+		$image = $game->getImage();
 
 		if($game->getGameId()) {
 			$gameId = $game->getGameId();
-			$sql = "UPDATE Game SET title = ?, developer = ?, releaseDate = ?, category = ? WHERE gameId = ?;";
-			$stmt = $this->getMysqli()->prepare($sql);
-			$stmt->bind_param("ssssi", $title, $developer, $releaseDate, $category, $gameId);
+			if($image) {
+				$sql = "UPDATE Game SET title = ?, developer = ?, releaseDate = ?, category = ?, image = ? WHERE gameId = ?;";
+				$stmt = $this->getMysqli()->prepare($sql);
+				$stmt->bind_param("sssssi", $title, $developer, $releaseDate, $category, $image, $gameId);
+			}
+			else {
+				$sql = "UPDATE Game SET title = ?, developer = ?, releaseDate = ?, category = ? WHERE gameId = ?;";
+				$stmt = $this->getMysqli()->prepare($sql);
+				$stmt->bind_param("ssssi", $title, $developer, $releaseDate, $category, $gameId);
+			}
 		}
 		else {
 			$consoleId = $game->getConsoleId();
 			$this->updateNumberOfGames($consoleId, 1);
-			$sql = "INSERT INTO Game(title, developer, releaseDate, category, consoleId) VALUES(?, ?, ?, ?, ?);";
+			$sql = "INSERT INTO Game(title, developer, releaseDate, category, image, consoleId) VALUES(?, ?, ?, ?, ?, ?);";
 			$stmt = $this->getMysqli()->prepare($sql);
-			$stmt->bind_param("ssssi", $title, $developer, $releaseDate, $category, $consoleId);
+			$stmt->bind_param("sssssi", $title, $developer, $releaseDate, $category, $image, $consoleId);
 		}
 
 		$stmt->execute();
@@ -83,7 +94,7 @@ class GameDAL extends DALBase {
 
 	// @param Game $game
 	// Plockar ut alla spel som matchar sökkriterierna
-	public function searchGame(Game $game) {
+	public function searchGame(\model\Game $game) {
 		$sql = "SELECT * FROM Game WHERE (title LIKE ?) AND (developer LIKE ?) AND (releaseDate LIKE ?) AND (category LIKE ?) ORDER BY title;";
 		$stmt = $this->getMysqli()->prepare($sql);
 		$titleString = '%' . $game->getTitle() . '%';
@@ -96,7 +107,7 @@ class GameDAL extends DALBase {
 
 		$games = array();
 		while($stmt->fetch()) {
-			$game = new Game();
+			$game = new \model\Game();
 			$game->setTitle($title);
 			$game->setDeveloper($developer);
 			$game->setReleaseDate($releaseDate);
