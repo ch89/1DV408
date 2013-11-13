@@ -4,66 +4,66 @@ Följande filer ska laddas upp via FTP
 
 I mappen view:
 
--AuthenticationView.php
--ConsoleView.php
--GameView.php
--GameViewBase.php
--Navigator.php
--SearchView.php
--ViewBase.php
+- AuthenticationView.php
+- ConsoleView.php
+- GameView.php
+- GameViewBase.php
+- Navigator.php
+- SearchView.php
+- ViewBase.php
 
 I mappen model:
 
--AuthenticationModel.php
--Console.php
--ConsoleDAL.php
--DALBase.php
--Game.php
--GameDAL.php
--Service.php
--User.php
--UserDAL.php
+- AuthenticationModel.php
+- Console.php
+- ConsoleDAL.php
+- DALBase.php
+- Game.php
+- GameDAL.php
+- Service.php
+- User.php
+- UserDAL.php
 
 I mappen controller
 
--AuthenticationController.php
--ConsoleController.php
--Controller.php
--GameController.php
--SearchController.php
+- AuthenticationController.php
+- ConsoleController.php
+- Controller.php
+- GameController.php
+- SearchController.php
 
 I roten
 
--index.php
--Request.php
--Router.php
--style.css
--.htaccess
+- index.php
+- Request.php
+- Router.php
+- style.css
+- .htaccess
 
 Databasen ska bestå av 3 tabeller.
 
 Console
 
--consoleId
--name
--developer
--releaseDate 
+- consoleId
+- name
+- developer
+- releaseDate 
 
 Game
 
--gameId
--title
--developer
--releaseDate
--category
--image
--consoleId
+- gameId
+- title
+- developer
+- releaseDate
+- category
+- image
+- consoleId
 
 User
 
--userId
--username
--password
+- userId
+- username
+- password
 
 
 # Konsolsamling Dokumentation
